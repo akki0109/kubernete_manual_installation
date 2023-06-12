@@ -1,0 +1,201 @@
+###first install docker in ubuntu instance because kubernetes depend on docker for contanerization........
+
+sudo apt-get update
+sudo apt-get install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+####Install Kubernetes Components Install the necessary Kubernetes components, which include kubeadm, kubelet, and kubectl. Run the following commands..
+
+sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+
+
+####Initialize the Kubernetes Cluster: On the master node, initialize the Kubernetes cluster using the kubeadm init command. After the initialization is complete, it will provide you with a command to run on the worker nodes to join them to the cluster. Make note of this command.
+
+
+sudo kubeadm init
+
+
+###Set Up Kubernetes Configuration: After the initialization, configure the Kubernetes client (kubectl) by running the following commands
+
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+####nstall Network Add-on: To enable networking between the nodes in the cluster, you need to install a network add-on. A popular choice is Calico. Install it by running
+
+
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+
+
+####Join Worker Nodes: On the worker nodes, run the command you received in Step 5 to join them to the cluster. It should look something like
+
+
+
+sudo kubeadm join <master-node-ip>:<master-node-port> --token <token> --discovery-token-ca-cert-hash <hash>
+
+
+
+###Verify Cluster Status: On the master node, run the following command to verify the cluster status
+
+
+kubectl get nodes
+
+
+####It should display the master node and the worker nodes, indicating that the cluster is up and running.
+
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
+
+
+######################   To deploy a Node.js application on a Kubernetes cluster, you can follow these steps
+
+
+---build image of your node js project for docker deployemnet---------------------------------------
+
+-----with below command--------------------------------------------------
+
+docker build -t your-image-name .
+
+----------------push to docker hub------------------------------------------through below command--------------------------
+
+
+
+
+docker push your-image-name
+
+
+---------------------Create a Deployment: Create a deployment YAML file that describes how Kubernetes should run your application. For example, create a deployment.yaml file with the following contents---------------------------------------------------------------------------------------------------------
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: your-app-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: your-app
+  template:
+    metadata:
+      labels:
+        app: your-app
+    spec:
+      containers:
+        - name: your-app-container
+          image: your-image-name
+          ports:
+            - containerPort: 3000
+
+
+----------------------------Expose Your Application: To access your application externally, you'll need to create a Kubernetes service. Create a service.yaml file with the following contents----------------------------------------
+
+------------------------------This YAML file defines a LoadBalancer service that exposes your application on port 80.------------------------------------------------------
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: your-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: your-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+
+
+
+
+------------------------kubectl apply -f service.yaml------------------------------------------------
+
+
+kubectl apply -f service.yaml
+
+
+--------------Kubernetes will create the service and allocate an external IP address (if using a cloud provider with LoadBalancer support) to access your application.----------------------------------------------------------
+
+
+
+
+
+------------------Verify Deployment: To check the status of your deployment and ensure everything is running smoothly, you can use the following command:--------------------------------------------------------------------------------
+
+
+kubectl get deployments
+kubectl get pods
+kubectl get services
+
+
+-----------------------------------incase i am hosting it on my domain an other file should i create is -----------------------------------
+
+
+Configure Ingress: If you want to use an Ingress resource to manage traffic routing and SSL termination, you'll need to set up an Ingress controller and configure an Ingress resource.
+
+Install an Ingress controller such as Nginx Ingress or Traefik by following the controller-specific instructions. This typically involves creating the necessary deployment, service, and RBAC (Role-Based Access Control) resources.
+
+Create an ingress.yaml file with the following contents
+
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: your-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx  # Or the class for your chosen Ingress controller
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: your-app-service
+                port:
+                  number: 80
+
+
+-----------------------------------------This Ingress resource directs traffic from example.com to the your-app-service service.---------------------------
+
+
+----------------------------Apply the Ingress configuration by running:----------------------------------------------
+
+
+kubectl apply -f ingress.yaml
+
+
+----------------------at the last for registring A record in godaddy ip will we get through below command---------------------------------------
+
+kubectl get services
+
+
+
+------------------------------------********************************---------------------------------***************************---------------------------
+
+
+
+
+
+
+

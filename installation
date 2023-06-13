@@ -16,7 +16,8 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 
-####Initialize the Kubernetes Cluster: On the master node, initialize the Kubernetes cluster using the kubeadm init command. After the initialization is complete, it will provide you with a command to run on the worker nodes to join them to the cluster. Make note of this command.
+####Initialize the Kubernetes Cluster: On the master node, initialize the Kubernetes cluster using the kubeadm init command. After the initialization is complete, 
+------------it will provide you with a command to run on the worker nodes to join them to the cluster. Make note of this command.--------------
 
 
 sudo kubeadm init

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lakshya
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lakshya
+  template:
+    metadata:
+      labels:
+        app: lakshya
+    spec:
+      containers:
+        - name: newcontara
+          image: djtechengineer/testy:akki
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html-volume
+              mountPath: /var/www/html/index.html
+      volumes:
+        - name: html-volume
+          hostPath:
+            path: /var/www/html/index.html

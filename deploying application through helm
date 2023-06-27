@@ -1,0 +1,39 @@
+###############################Deploying an application#########################################################3
+###########The Helm install command deploys an application. The command output includes details about the release and resources. For 
+  the chart in this example, stable/mysql, the release name is loping-toad. One resource of each type exists, all named loping-toad-mysql:
+
+Secret
+Service
+Deployment
+PersistentVolumeClaim
+  
+$ helm search mysql
+
+NAME          VERSION                DESCRIPTION  
+stable/mysql    0.1.1                 Chart for MySQL
+
+  
+$ helm install stable/mysql
+
+Fetched stable/mysql to mysql-0.1.1.tgz  
+NAME: loping-toad  
+LAST DEPLOYED: Thu Oct 20 14:54:24 2016  
+NAMESPACE: default  
+STATUS: DEPLOYED
+
+RESOURCES:  
+==> v1/Secret  
+NAME TYPE              DATA           AGE  
+loping-toad-mysql      Opaque    2        3s
+
+==> v1/Service  
+NAME                   CLUSTER-IP             EXTERNAL-IP          PORT(S)   AGE  
+loping-toad-mysql    192.168.1.5             <none>                3306/TCP  3s
+
+==> extensions/Deployment  
+NAME                   DESIRED      CURRENT   UP-TO-DATE     AVAILABLE    AGE
+loping-toad-mysql    1             0              0         0               3s
+
+==> v1/PersistentVolumeClaim  
+NAME          STATUS    VOLUME  CAPACITY    ACCESSMODES AGE
+loping-toad-mysql Pending

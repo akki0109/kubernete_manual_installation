@@ -1,0 +1,93 @@
+-------------------------------------===================================================----------------------------------------------------------
+
+mkdir my-node-app-chart
+cd my-node-app-chart
+
+=====================================================Create a Chart.yaml file with the following content:========================================
+
+apiVersion: v2
+name: my-node-app
+version: 0.1.0
+description: A Helm chart for deploying my Node.js application
+
+------------------------------------------------Create a values.yaml file to define the configuration values for your application:---------------
+
+# values.yaml
+replicaCount: 1
+image:
+  repository: your-registry/your-node-app                       #############change repo-url 
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+  port: 3000
+ingress:
+  enabled: false
+
+--------------------------------------Create a deployment.yaml file for your Kubernetes Deployment:------------------------------------------------
+
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-node-app.fullname" . }}
+  labels:
+    app: {{ include "my-node-app.name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "my-node-app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "my-node-app.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3000
+
+
+------------------------------------Create a service.yaml file for your Kubernetes Service:-------------------------------------------------
+
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "my-node-app.fullname" . }}
+  labels:
+    app: {{ include "my-node-app.name" . }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 3000
+  selector:
+    app: {{ include "my-node-app.name" . }}
+
+------------------(Optional) If you want to enable an Ingress resource for your application, create an ingress.yaml file:----------------------
+
+
+# ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "my-node-app.fullname" . }}
+  labels:
+    app: {{ include "my-node-app.name" . }}
+spec:
+  rules:
+    - host: your-domain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "my-node-app.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+
+

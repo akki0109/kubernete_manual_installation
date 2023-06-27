@@ -34,3 +34,6 @@ $ helm delete <release>
 
 searching repo
 $ helm search jenkins
+
+adding repo with tag my-charts
+$ helm repo add my-charts https://my-charts.storage.googleapis.com

@@ -1,0 +1,33 @@
+=============================================----------------------------------------------------==================================================
+
+$ helm create <chart>
+
+List the repositories:
+$ helm repo list
+
+Search for a chart:
+$ helm search <keyword>
+
+Get information about a chart:
+$ helm inspect <chart>
+
+Deploy a chart (creates a release):
+$ helm install <chart>
+
+List all releases:
+$ helm list --all
+  
+Get the status of a release:
+$ helm status <release>
+
+Get the details about a release:
+$ helm get <release>
+
+Upgrade a release:
+$ helm upgrade <release> <chart>
+
+Roll back a release:
+$ helm rollback <release> <revision>
+
+Delete a release:
+$ helm delete <release>

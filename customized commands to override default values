@@ -1,0 +1,23 @@
+##############################Default and custom deployment values#####################################################
+The default values for a deployment are stored in the values.yaml file in the chart. You can customize aspects of the deployment by overriding those values.
+
+First, the Helm CLI uses the Kubernetes CLI's configuration to connect to your current cluster.
+
+~/.kube/config
+
+$ kubectl config view
+
+After it connects to your cluster, you use Helm installation commands to specify the attributes of the release.
+
+#########################To specify a release's name, use the --name flag:
+
+$ helm install --name CustomerDB stable/mysql
+###################To deploy the release into a Kubernetes namespace, use the --namespace flag:
+
+$ helm install --namespace ordering-system stable/mysql
+####################To override a value, use the --set flag:
+
+$ helm install --set user.name='student',user.password='passw0rd' stable/mysql
+##################To override values with a values file, use the --values or the --f flag:
+
+$ helm install --values myvalues.yaml stable/mysql

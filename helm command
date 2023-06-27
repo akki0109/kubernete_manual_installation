@@ -31,3 +31,6 @@ $ helm rollback <release> <revision>
 
 Delete a release:
 $ helm delete <release>
+
+searching repo
+$ helm search jenkins

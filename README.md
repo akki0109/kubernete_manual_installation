@@ -13,7 +13,7 @@ This repository contains code and instructions for setting up a Kubernetes clust
 2. **Step 2:** install Helm:
    
    ```bash
-   $ curl -LO https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddtytytytytytyt
+   $ curl -LO https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz 
    $ tar -zxvf helm-v3.7.0-linux-amd64.tar.gz
    $ sudo mv linux-amd64/helm /usr/local/bin/helm
 4. **Step 3:** Initialize your cluster with Helm:

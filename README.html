@@ -1,89 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes Installation and Application Deployment with Helm</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-    }
-    h1, h2, h3 {
-      color: #333;
-    }
-    h1 {
-      font-size: 36px;
-    }
-    h2 {
-      font-size: 24px;
-    }
-    h3 {
-      font-size: 20px;
-    }
-    p {
-      font-size: 16px;
-    }
-    code {
-      font-family: Consolas, monospace;
-      font-size: 14px;
-      background-color: #f4f4f4;
-      padding: 2px 4px;
-    }
-    pre {
-      background-color: #f4f4f4;
-      padding: 10px;
-      overflow-x: auto;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Kubernetes Installation and Application Deployment with Helm</h1>
-    <p>This repository contains code and instructions for setting up a Kubernetes cluster and deploying applications using Helm charts.</p>
-  </header>
+# Kubernetes Installation and Application Deployment with Helm
 
-  <main>
-    <section>
-      <h2>Installation</h2>
-      <ol>
-        <li><strong>Step 1:</strong> Install Kubernetes using the following commands:</li>
-        <pre><code>
-          $ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-          $ chmod +x ./kubectl
-          $ sudo mv ./kubectl /usr/local/bin/kubectl
-        </code></pre>
-        <li><strong>Step 2:</strong> Install Helm:</li>
-        <pre><code>
-          $ curl -LO https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz
-          $ tar -zxvf helm-v3.7.0-linux-amd64.tar.gz
-          $ sudo mv linux-amd64/helm /usr/local/bin/helm
-        </code></pre>
-        <li><strong>Step 3:</strong> Initialize your cluster with Helm:</li>
-        <pre><code>
-          $ helm init
-        </code></pre>
-      </ol>
-    </section>
+This repository contains code and instructions for setting up a Kubernetes cluster and deploying applications using Helm charts.
 
-    <section>
-      <h2>Usage</h2>
-      <p>To deploy applications using Helm charts, use the following commands:</p>
-      <pre><code>
-        $ helm install my-chart ./path/to/chart
-      </code></pre>
-    </section>
+## Installation
 
-    <section>
-      <h2>Contributing</h2>
-      <p>Contributions are welcome! Please fork the repository and create a pull request with your changes.</p>
-    </section>
+1. **Step 1:** Install Kubernetes using the following commands:
 
-    <section>
-      <h2>License</h2>
-      <p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.</p>
-    </section>
-  </main>
-</body>
-</html>
+   ```bash
+   $ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+   $ chmod +x ./kubectl
+   $ sudo mv ./kubectl /usr/local/bin/kubectl
+$ curl -LO https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz
+$ tar -zxvf helm-v3.7.0-linux-amd64.tar.gz
+$ sudo mv linux-amd64/helm /usr/local/bin/helm
+$ helm init
+$ helm install my-chart ./path/to/chart
